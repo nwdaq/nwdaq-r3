@@ -1,9 +1,24 @@
 ============================
-Backplane
+Electrical design
 ============================
 
 Power concept
 ======================
+
+The backplane power rail design is not trivial as the range of unit power consumption requirements is very wide.
+The general design can be summarized as follows:
+
+- there is a low voltage, low power rail for powering units with usual power consumption in the range of milliwats,
+  with the maximum total power consumption of 40 W, 20 W maximum per unit.
+- a second low voltage, low power rail is available for redundancy for units needing it
+- a high-power rail is available with a moderately high voltage to provide up to 280 W of total power
+
+
+
+
+
+Power classes
+====================
 
 The backplane has the function to distribute power to all units within a single subrack. Dynamic range of the power
 required by the units is very wide - from microwatts to 200 W. For the purpose of unit classification, a range
