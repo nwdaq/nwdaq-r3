@@ -1,0 +1,28 @@
+@media print {
+	@page {
+		size: auto A4 portrait;
+		margin-top: 20mm;
+		margin-bottom: 20mm;
+	}
+}
+
+p + section h2, h1 + section h2 {
+	break-before: page;
+}
+
+.align-left {
+	float: left;
+}
+
+.wy-nav-content {
+	max-width: 100%;
+}
+
+.logo {
+	height: 150px !important;
+}
+
+.wy-side-nav-search, .wy-nav-top {
+	background-color: #4e4a4a;
+}
+
