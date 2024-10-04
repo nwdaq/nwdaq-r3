@@ -2,26 +2,105 @@
 Electrical design
 ============================
 
-Power concept
-======================
 
-The backplane power rail design is not trivial as the range of unit power consumption requirements is very wide.
-The general design can be summarized as follows:
+Overall concept
+=========================
 
-- there is a low voltage, low power rail for powering units with usual power consumption in the range of milliwats,
-  with the maximum total power consumption of 40 W, 20 W maximum per unit.
-- a second low voltage, low power rail is available for redundancy for units needing it
-- a high-power rail is available with a moderately high voltage to provide up to 280 W of total power
+Plug-in units are interconnected with a backplane mounted on the rear horizontal rails within the subrack.
+Power to the backplane is provided using bidirectional/source units from their respective front panels.
+Data communication and any field connections are only done on plug-in unit front panels.
 
 
+Backplane interconnects
+=============================
+
+The backplane provides redundant low power rails, a high power rail, redundant ``nqdaq-nbus`` communication
+buses, ``nwdaq-pbus`` power resource communication bus, 10Base-T1S multidrop ethernet bus and 100Base-T1/1GBase-T1
+point-to-point links. WIth the exception of the last one, all interconnections are using the bus topology.
+Point-to-point ethernet links use star topology, more on that in the corresponding section. There are no external
+connections going to the backplane except connections allowing backplane stacking.
+
+All connections are organized into 8 possible backplane connectors with designations JM0 to JM7. The following
+table lists all connections within the particular backplane connector.
+
+.. table:: List of backplane connectors with their respective interconnects
+
+	=============== ========================== =================================================================
+	Connector       Name                       Interconnects
+	=============== ========================== =================================================================
+	JM0             Basic power and data       - VBUS_LP low power bus
+	                                           - ``nwdaq-nbus`` communication bus
+	                                           - 10Base-T1S ethernet bus
+	                                           - card detect input/output
+	                                           - functional ground connection
+	JM1		Redundant power and data   - VBUS_LP2 low power bus
+	                                           - ``nwdaq-nbus`` redundant communication bus
+	                                           - 100Base-T1/1GBase-T1 ethernet link
+	JM2             App specific, star         Application-specific fanout of 10 differential lanes,
+	                                           connections to the other units are diven by the backplane design
+	JM3             Reserved
+	JM3             Reserved
+	JM3             Reserved
+	JM3             Reserved
+	JM3             High power bus             - VBUS_HP high power bus
+	                                           - ``nwdaq-pbus`` power resource bus
+	                                           - card detect input/output
+	                                           - functional ground connection
+	=============== ========================== =================================================================
 
 
 
-Power classes
+Redundant data connection over ``nwdaq-nbus``
+------------------------------------------------
+
+.. note::
+
+	As the requirements for a low-power, medium-speed data bus evolved over time since 2015, it became clear
+	a bit more specific approach needs to be used.
+
+``nwdaq-nbus`` satisfies the following requirements:
+
+- very low power during the idle state
+- moderate speeds achievable (1-4 mbit/s on the backplane, 250 kbit/s nominally over long runs)
+- initiator driven MAC (token passing) or CSMA/CA/CD MAC
+- wired-OR operation to avoid power peaks during collisions
+- source-based addressing (publish/subscribe)
+- packet-switched
+- native encryption using pre-shared keys providing basic security
+- packet size up to 1024 B
+
+On the **physical layer** (L1) level, the bus uses CAN signalling as specified in ISO 11898-2. Common CAN and CAN-FD
+transceivers can be used to access the ``nwdaq-nbus`` bus. CAN MAC is not used.
+
+.. note::
+
+	There is also a legacy possibility of tunneling ``nqdaq-nbus`` over a CAN 2.0b bus. This concept is not part
+	of this specification as it is no longer recommended nor used.
+
+
+Redundant low power bus ``VBUS_LP`` and ``VBUS_LP2``
+--------------------------------------------------------
+
+
+High power bus ``VBUS_HP``
+----------------------------------
+
+
+Ethernet data connection over 10Base-T1S
+---------------------------------------------
+
+
+
+Ethernet data connection over 100Base-T1/1GBase-T1
+-----------------------------------------------------
+
+
+
+Unit power classes
 ====================
 
 The backplane has the function to distribute power to all units within a single subrack. Dynamic range of the power
-required by the units is very wide - from microwatts to 200 W. For the purpose of unit classification, a range
+required by the units is very wide - from microwatts to 280 W. For the purpose of unit classification, a range
 of power classes is established. It can be used as a guide for selecting the right unit for the particular job.
 
 ======= =============== =============== ================================================================================

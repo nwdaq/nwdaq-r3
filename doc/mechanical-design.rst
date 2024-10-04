@@ -32,3 +32,11 @@ in the subrack assembly. Table below lists some common combinations and rail len
 	10         41              208.28                Size for 10" racks
 	21         85              431.80                Size for 19" racks
 	========== =============== ===================== ===============================
+
+
+Side view of the subrack with the corresponding dimensions is pictured below.
+
+.. figure:: _static/side-view.svg
+	:width: 600pt
+
+	Side panel with horizontal rails attached, side view
