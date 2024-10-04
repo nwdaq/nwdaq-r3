@@ -32,12 +32,13 @@ table lists all connections within the particular backplane connector.
 	                                           - ``nwdaq-nbus`` communication bus
 	                                           - 10Base-T1S ethernet bus
 	                                           - card detect input/output
-	                                           - functional ground connection
+	                                           - chassis ground connection
 	JM1		Redundant power and data   - VBUS_LP2 low power bus
 	                                           - ``nwdaq-nbus`` redundant communication bus
 	                                           - 100Base-T1/1GBase-T1 ethernet link
 	JM2             App specific, star         Application-specific fanout of 10 differential lanes,
-	                                           connections to the other units are diven by the backplane design
+ 	                                           connections to the other units are given by the backplane design.
+	                                           See JM2 addendums for commonly used connections.
 	JM3             Reserved
 	JM3             Reserved
 	JM3             Reserved
@@ -45,7 +46,7 @@ table lists all connections within the particular backplane connector.
 	JM3             High power bus             - VBUS_HP high power bus
 	                                           - ``nwdaq-pbus`` power resource bus
 	                                           - card detect input/output
-	                                           - functional ground connection
+	                                           - chassis ground connection
 	=============== ========================== =================================================================
 
 
@@ -53,10 +54,6 @@ table lists all connections within the particular backplane connector.
 Redundant data connection over ``nwdaq-nbus``
 ------------------------------------------------
 
-.. note::
-
-	As the requirements for a low-power, medium-speed data bus evolved over time since 2015, it became clear
-	a bit more specific approach needs to be used.
 
 ``nwdaq-nbus`` satisfies the following requirements:
 
@@ -93,6 +90,93 @@ Ethernet data connection over 10Base-T1S
 
 Ethernet data connection over 100Base-T1/1GBase-T1
 -----------------------------------------------------
+
+
+Application specific differential lanes
+--------------------------------------------
+
+
+Backplane connector pinouts
+==================================
+
+Backplane contains slots for 8 connectors named JM0 to JM7. Not all of them need to be used. These are the
+usual combinations:
+
+- JM0 only - for simple units, no requirement for redundancy
+- JM1 only - not possible
+- JM0+JM1 - redundant low power bus and redundant communication bus
+- JM0+JM1 - simple units with fast data transfer requirement (100Base-T1/1GBase-T1)
+- +JM2 - ethernet switching boards, USB hub boards, etc.
+- JM7 only - high power units, photovoltaic input units, battery packs
+- JM0+JM7 - power supplies, external power bus interfaces
+
+
+
+JM0
+-------------------
+
+JM0 connector provides power and data for simple and low power units usually in the 1-3 power class.
+No power or communication redundancy is available if only JM0 is used.
+
+
+.. figure:: _static/jm0.svg
+	:width: 400pt
+
+	Backplane connector pinout and suggested routing - JM0
+
+
+.. table:: JM0 backplane connector signal description
+
+	========== ====================================================
+	Signal     Description
+	========== ====================================================
+	CD         Card detect. Connect resistor to GND or VBUS_LP.
+		   See `card-detection` section.
+	CH         Chassis ground. See `grounding-concept`.
+	GND        Plug-in unit main ground connection.
+	VBUS_LP    Lopw-power bus connection
+	T1SP       10Base-T1S bus, positive
+	T1SN       10Base-T1S bus, negative
+	NBUSP      ``nqdaq-nbus`` bus, positive
+	NBUSN      ``nqdaq-nbus`` bus, negative
+	========== ====================================================
+
+
+JM1
+------------------
+
+
+.. table:: JM1 backplane connector signal description
+
+	========== ====================================================
+	Signal     Description
+	========== ====================================================
+	========== ====================================================
+
+
+JM2
+-----------------
+
+
+.. table:: JM2 backplane connector signal description
+
+	========== ====================================================
+	Signal     Description
+	========== ====================================================
+	========== ====================================================
+
+
+
+JM7
+-----------------
+
+.. table:: JM7 backplane connector signal description
+
+	========== ====================================================
+	Signal     Description
+	========== ====================================================
+	========== ====================================================
+
 
 
 
