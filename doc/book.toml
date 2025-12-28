@@ -1,0 +1,31 @@
+[book]
+title = "nwDAQ-R3 platform specification"
+description = "nwDAQ-R3 platform specification"
+authors = ["Marek Koza"]
+language = "en"
+
+[rust]
+edition = "2018"
+
+[output.html]
+smart-punctuation = true
+mathjax-support = false
+site-url = "/doc/"
+git-repository-url = "https://github.com/nwdaq/nwdaq-r3/tree/master/doc"
+edit-url-template = "https://github.com/nwdaq/nwdaq-r3/edit/master/doc/{path}"
+hash-files = true
+additional-css = ["css/custom.css"]
+
+[output.html.search]
+limit-results = 20
+use-boolean-and = true
+boost-title = 2
+boost-hierarchy = 2
+boost-paragraph = 1
+expand = true
+heading-split-level = 2
+
+[build]
+#extra-watch-dirs = ["guide-helper/src"]
+
+[preprocessor.alerts]
